@@ -2,7 +2,7 @@
   "name": "create-backend-scaffold",
   "version": "1.0.1",
   "description": "",
-  "bin":{
+  "bin": {
     "create-backend-scaffold": "bin/cli.js"
   },
   "scripts": {
