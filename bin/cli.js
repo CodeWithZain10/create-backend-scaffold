@@ -6,6 +6,9 @@ import init from "../src/commands/init.js";
 
 const prompt = createPromptModule();
 
-program.command('init').action(init);
+program
+    .name("create-backend-scaffold")
+    .description("CLI to scaffold a backend project")
+    .action(init);
 
 program.parse();

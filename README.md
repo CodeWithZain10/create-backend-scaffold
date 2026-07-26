@@ -18,7 +18,7 @@ Stop rewriting the same folder structure, auth boilerplate, and config setup for
 No installation needed — just run:
 
 ```bash
-npx i create-backend-scaffold init
+npx i create-backend-scaffold
 ```
 
 You'll be asked a few quick questions (project name, whether you want authentication, etc.), and your backend will be scaffolded in a new folder.
