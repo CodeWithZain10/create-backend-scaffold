@@ -33,7 +33,7 @@ npm install
 Fill in your `.env` file with your MongoDB connection string (and JWT secret, if you included authentication), then:
 
 ```bash
-node server.js
+nodemon server.js
 ```
 
 That's it — your backend is running.
