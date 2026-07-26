@@ -1,4 +1,5 @@
-import userModel from '../models/user.model.js'
+const authControllerTemplate = () => {
+    return `import userModel from '../models/user.model.js'
 import jwt from 'jsonwebtoken'
 
 export const registerUser = async (req, res) => {
@@ -33,8 +34,7 @@ export const registerUser = async (req, res) => {
         user: {
             _id: user._id,
             user: user.username,
-            email: user.email,
-            password: user.password, 
+            email: user.email
         },
         token: token
     })
@@ -51,7 +51,7 @@ export const loginUser = async (req, res) => {
         return res.status(400).json({message: 'Please provide all required fields'})
     }
 
-    const user = await userModel.findOne({email})
+    const user = await userModel.findOne({email}).select("+password")
 
     if(!user) {
         return res.status(404).json({message: 'User not found'})
@@ -93,4 +93,7 @@ export const logoutUser = async (req, res) => {
 
     res.status(200).json({message: "User logged out successfully"})
 
+}`
 }
+
+export default authControllerTemplate;

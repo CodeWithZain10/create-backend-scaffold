@@ -10,8 +10,7 @@ const init = () => {
   prompt(questions).then((answers) => {
     console.log(`Project name: ${answers.projectName}`);
     console.log(`Include authentication: ${answers.authentication}`);
-    console.log(`Include validation: ${answers.validation}`);
-    createProjectStructure(answers.projectName, answers.authentication, answers.validation);
+    createProjectStructure(answers.projectName, answers.authentication);
   });
 }
 

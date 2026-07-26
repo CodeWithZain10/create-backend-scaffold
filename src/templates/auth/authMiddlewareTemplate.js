@@ -1,4 +1,6 @@
-import userModel from '../models/user.model.js'
+
+const getAuthMiddlewareContent = () => {
+    return `import userModel from '../models/user.model.js'
 import jwt from 'jsonwebtoken'
 
 const authMiddleware = async (req, res, next) => {
@@ -28,4 +30,7 @@ const authMiddleware = async (req, res, next) => {
 
 }
 
-export default authMiddleware
+export default authMiddleware`
+}
+
+export default getAuthMiddlewareContent;

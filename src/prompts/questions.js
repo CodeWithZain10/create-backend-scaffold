@@ -10,12 +10,6 @@ const questions = [
         message: "Do you want to include authentication?",
         default: false
         
-    },
-    {
-        type: 'confirm',
-        name: "validation",
-        message: "Do you want to include validation?",
-        default: false
     }
   ]
 
