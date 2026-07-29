@@ -1,6 +1,6 @@
 import userModel from '../models/user.model.js'
 import jwt from 'jsonwebtoken'
-import { UnauthorizedError } from '../../../src/utils/errors/AppErrorTemplate.js'
+import { UnauthorizedError } from '../utils/errors/AppError.js'
 
 const authMiddleware = async (req, res, next) => {
 
