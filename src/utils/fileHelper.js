@@ -32,11 +32,8 @@ const createProjectStructure = (projectName, includeAuthentication, includeValid
         const authRoutesContent = authRoutesTemplate();
         const authControllerContent = authControllerTemplate();
         const AuthMiddlewareContent = getAuthMiddlewareContent();
-        const authValidationContent = authValidationTemplate();
 
-        fs.writeFileSync(path.join(baseDir, "src", "middlewares", "validate.middleware.js"), validateMiddlewareContent)
         fs.writeFileSync(path.join(baseDir, "src", "middlewares", "auth.middleware.js"), AuthMiddlewareContent)
-        fs.writeFileSync(path.join(baseDir, "src", "middlewares", "errorHandler.middleware.js"), errHandlerContent)
         fs.writeFileSync(path.join(baseDir, "src", "models", "user.model.js"), userModelContent)
         fs.writeFileSync(path.join(baseDir, "src", "routes", "auth.routes.js"), authRoutesContent)
         fs.writeFileSync(path.join(baseDir, "src", "controllers", "auth.controller.js"), authControllerContent)
@@ -46,6 +43,7 @@ const createProjectStructure = (projectName, includeAuthentication, includeValid
         const validateMiddlewareContent = validateMiddlewareTemplate();
         const authValidationContent = authValidationTemplate();
         fs.writeFileSync(path.join(baseDir, "src", "utils", "validation", "auth.validation.js"), authValidationContent)
+        fs.writeFileSync(path.join(baseDir, "src", "middlewares", "validate.middleware.js"), validateMiddlewareContent)
     }
 
     if(includeErrorHandler) {
