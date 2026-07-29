@@ -1,4 +1,4 @@
-const packageJsonTemplate = (projectName, includeAuthentication) => {
+const packageJsonTemplate = (projectName, includeAuthentication, includeValidation) => {
     return `{
   "name": "${projectName}",
   "version": "1.0.0",
@@ -16,7 +16,8 @@ const packageJsonTemplate = (projectName, includeAuthentication) => {
     "cors": "latest"${includeAuthentication ? `,
     "bcryptjs": "latest",
     "jsonwebtoken": "latest",
-    "cookie-parser": "latest"` : ""}
+    "cookie-parser": "latest",` : ""}${includeValidation ? `
+    "joi": "latest"` : ""}
   }
 }
 `

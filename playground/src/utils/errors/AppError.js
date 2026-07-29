@@ -34,7 +34,7 @@ export class UnauthorizedError extends AppError{
     }
 }
 
-export class validationError extends AppError{
+export class ValidationError extends AppError{
     constructor(message){
         super(message, 400);
     }

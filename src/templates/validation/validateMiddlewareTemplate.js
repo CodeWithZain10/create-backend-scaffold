@@ -1,5 +1,5 @@
 const validateMiddlewareTemplate = (schema) => {
-    return `import { validationError } from '../../../src/utils/errors/AppErrorTemplate.js'
+    return `import { validationError } from '../utils/errors/AppError.js'
     
     const validateMiddleware = (${schema}) => {
         return (req, res, next) => {

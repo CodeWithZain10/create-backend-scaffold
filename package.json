@@ -14,7 +14,7 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
-    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
     "commander": "^15.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",

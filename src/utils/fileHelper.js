@@ -7,11 +7,12 @@ import authControllerTemplate from '../templates/auth/authControllerTemplate.js'
 import appCodeTemplate from '../templates/base/appCodeTemplate.js';
 import serverCodeTemplate from '../templates/base/serverCodeTemplate.js';
 import dbConfigTemplate from '../templates/base/dbConfigTemplate.js';
-import envTemplate from '../templates/base/envTemplate.js';
+import envTemplate from '../templates/base/env/envTemplate.js';
 import packageJsonTemplate from '../templates/base/packages/packageJsonTemplate.js';
 import validateMiddlewareTemplate from '../templates/validation/validateMiddlewareTemplate.js';
 import errHandlerTemplate from '../utils/errors/errorHandlerMiddlewareTemplate.js';
-import authValidationTemplate from '../templates/validation/authValidationTemplate.js';
+import authValidationTemplate from '../templates/auth/authValidationTemplate.js';
+import appErrorTemplate from '../utils/errors/appErrorTemplate.js';
 
 const createProjectStructure = (projectName, includeAuthentication, includeValidation, includeErrorHandler) => {
 
@@ -42,16 +43,21 @@ const createProjectStructure = (projectName, includeAuthentication, includeValid
     if(includeValidation) {
         const validateMiddlewareContent = validateMiddlewareTemplate();
         const authValidationContent = authValidationTemplate();
+        fs.mkdirSync(path.join(baseDir, 'src', 'utils', 'validation'), { recursive: true })
         fs.writeFileSync(path.join(baseDir, "src", "utils", "validation", "auth.validation.js"), authValidationContent)
         fs.writeFileSync(path.join(baseDir, "src", "middlewares", "validate.middleware.js"), validateMiddlewareContent)
     }
 
     if(includeErrorHandler) {
         const errHandlerContent = errHandlerTemplate();
+        const appErrorContent = appErrorTemplate();
+        fs.mkdirSync(path.join(baseDir, 'src', 'middlewares'), { recursive: true })
         fs.writeFileSync(path.join(baseDir, "src", "middlewares", "errorHandler.middleware.js"), errHandlerContent)
+        fs.mkdirSync(path.join(baseDir, 'src', 'utils', 'errors'), { recursive: true })
+        fs.writeFileSync(path.join(baseDir, "src", "utils", "errors", "AppError.js"), appErrorContent)
     }
 
-    const appCodeContent = appCodeTemplate(includeAuthentication);
+    const appCodeContent = appCodeTemplate(includeAuthentication, includeErrorHandler);
     const serverCodeContent = serverCodeTemplate();
     const dbConfigContent = dbConfigTemplate();
     
@@ -62,7 +68,7 @@ const createProjectStructure = (projectName, includeAuthentication, includeValid
     const envContent = envTemplate(includeAuthentication);
     fs.writeFileSync(path.join(baseDir, ".env"), envContent)
 
-    const packageJsonContent = packageJsonTemplate(projectName, includeAuthentication);
+    const packageJsonContent = packageJsonTemplate(projectName, includeAuthentication, includeValidation);
     fs.writeFileSync(path.join(baseDir, "package.json"), packageJsonContent)
 
     

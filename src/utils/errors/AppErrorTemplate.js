@@ -50,3 +50,5 @@ export class ForbiddenError extends AppError{
 }
 `
 }
+
+export default appErrorTemplate;
