@@ -7,10 +7,13 @@ import authControllerTemplate from '../templates/auth/authControllerTemplate.js'
 import appCodeTemplate from '../templates/base/appCodeTemplate.js';
 import serverCodeTemplate from '../templates/base/serverCodeTemplate.js';
 import dbConfigTemplate from '../templates/base/dbConfigTemplate.js';
-import envTemplate from '../templates/env/envTemplate.js';
-import packageJsonTemplate from '../templates/packages/packageJsonTemplate.js';
+import envTemplate from '../templates/base/envTemplate.js';
+import packageJsonTemplate from '../templates/base/packages/packageJsonTemplate.js';
+import validateMiddlewareTemplate from '../templates/validation/validateMiddlewareTemplate.js';
+import errHandlerTemplate from '../utils/errors/errorHandlerMiddlewareTemplate.js';
+import authValidationTemplate from '../templates/validation/authValidationTemplate.js';
 
-const createProjectStructure = (projectName, includeAuthentication, includeValidation) => {
+const createProjectStructure = (projectName, includeAuthentication, includeValidation, includeErrorHandler) => {
 
     const baseDir = path.join(process.cwd(), projectName);
 
@@ -29,11 +32,25 @@ const createProjectStructure = (projectName, includeAuthentication, includeValid
         const authRoutesContent = authRoutesTemplate();
         const authControllerContent = authControllerTemplate();
         const AuthMiddlewareContent = getAuthMiddlewareContent();
+        const authValidationContent = authValidationTemplate();
 
+        fs.writeFileSync(path.join(baseDir, "src", "middlewares", "validate.middleware.js"), validateMiddlewareContent)
         fs.writeFileSync(path.join(baseDir, "src", "middlewares", "auth.middleware.js"), AuthMiddlewareContent)
+        fs.writeFileSync(path.join(baseDir, "src", "middlewares", "errorHandler.middleware.js"), errHandlerContent)
         fs.writeFileSync(path.join(baseDir, "src", "models", "user.model.js"), userModelContent)
         fs.writeFileSync(path.join(baseDir, "src", "routes", "auth.routes.js"), authRoutesContent)
         fs.writeFileSync(path.join(baseDir, "src", "controllers", "auth.controller.js"), authControllerContent)
+    }
+
+    if(includeValidation) {
+        const validateMiddlewareContent = validateMiddlewareTemplate();
+        const authValidationContent = authValidationTemplate();
+        fs.writeFileSync(path.join(baseDir, "src", "utils", "validation", "auth.validation.js"), authValidationContent)
+    }
+
+    if(includeErrorHandler) {
+        const errHandlerContent = errHandlerTemplate();
+        fs.writeFileSync(path.join(baseDir, "src", "middlewares", "errorHandler.middleware.js"), errHandlerContent)
     }
 
     const appCodeContent = appCodeTemplate(includeAuthentication);

@@ -1,7 +1,8 @@
 import express from 'express'
 import cors from 'cors'
-import authRoutes from './routes/auth.routes.js'
+import authRoutes from '../playground/src/routes/auth.routes.js'
 import cookieParser from 'cookie-parser'
+import { errorHandler } from '../playground/src/middlewares/errorHandler.middleware.js'
 
 const app = express()
 
@@ -12,6 +13,7 @@ app.use(cookieParser())
 
 app.use('/api/auth', authRoutes)
 
+app.use(errorHandler)
 
 
 export default app

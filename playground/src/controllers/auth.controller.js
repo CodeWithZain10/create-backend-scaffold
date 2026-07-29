@@ -1,18 +1,16 @@
 import userModel from '../models/user.model.js'
 import jwt from 'jsonwebtoken'
+import { NotFoundError, UserAlreadyExistsError, UnauthorizedError, BadRequestError, ForbiddenError } from '../utils/errors/AppError.js'
 
 export const registerUser = async (req, res) => {
 
     const {username, email, password} = req.body
 
-    if(!username || !email || !password){
-        return res.status(400).json({message: 'Please provide all required fields'})
-    }
 
     const isUserAlreadyExists = await userModel.findOne({email})
 
     if(isUserAlreadyExists) {
-        return res.status(422).json({message: 'User already exists'})
+        throw new UserAlreadyExistsError('User already exists')
     }
 
     const user = await userModel.create({
@@ -47,20 +45,17 @@ export const loginUser = async (req, res) => {
 
     const {email, password} = req.body
 
-    if(!email || !password){
-        return res.status(400).json({message: 'Please provide all required fields'})
-    }
 
-    const user = await userModel.findOne({email})
+    const user = await userModel.findOne({email}).select("+password")
 
     if(!user) {
-        return res.status(404).json({message: 'User not found'})
+        throw new NotFoundError('User not found')
     }
 
     const isPasswordCorrect = await user.comparePassword(password)
 
     if(!isPasswordCorrect) {
-        return res.status(401).json({message: 'Invalid credentials'})
+        throw new UnauthorizedError('Invalid password')
     }
 
     const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, { expiresIn: '3d'})
@@ -86,7 +81,7 @@ export const logoutUser = async (req, res) => {
     const token = req.cookies.token || req.headers.authorization?.split(" ")[1]
 
     if(!token) {
-        return res.status(401).json({message: 'Unauthorized'})
+        throw new UnauthorizedError('No token provided')
     }
 
     res.clearCookie("token")
