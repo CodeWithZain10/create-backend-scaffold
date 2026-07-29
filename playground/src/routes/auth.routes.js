@@ -5,8 +5,6 @@ import validateMiddleware from '../middlewares/validate.middleware.js'
 import { registerSchema, loginSchema } from '../utils/validation/auth.validation.js'
 import { createRequire } from 'module';
 
-const require = createRequire(import.meta.url);
-
 const router = express.Router();
 
 router.post('/register', validateMiddleware(registerSchema), registerUser);
