@@ -9,6 +9,8 @@ const packageJsonTemplate = (projectName, includeAuthentication, includeValidati
     "dev": "nodemon server.js"
   },
   "dependencies": {
+  ${includeValidation ? `
+    "joi": "latest",` : ""}
     "express": "latest",
     "mongoose": "latest",
     "dotenv": "latest",
@@ -16,11 +18,9 @@ const packageJsonTemplate = (projectName, includeAuthentication, includeValidati
     "cors": "latest"${includeAuthentication ? `,
     "bcryptjs": "latest",
     "jsonwebtoken": "latest",
-    "cookie-parser": "latest",` : ""}${includeValidation ? `
-    "joi": "latest"` : ""}
+    "cookie-parser": "latest"` : ""}
   }
 }
 `
 }
-
 export default packageJsonTemplate;

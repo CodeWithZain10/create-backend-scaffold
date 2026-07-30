@@ -30,8 +30,8 @@ const createProjectStructure = (projectName, includeAuthentication, includeValid
 
     if(includeAuthentication) {
         const userModelContent = userModelTemplate()
-        const authRoutesContent = authRoutesTemplate();
-        const authControllerContent = authControllerTemplate();
+        const authRoutesContent = authRoutesTemplate(includeValidation);
+        const authControllerContent = authControllerTemplate(includeErrorHandler);
         const AuthMiddlewareContent = getAuthMiddlewareContent();
 
         fs.writeFileSync(path.join(baseDir, "src", "middlewares", "auth.middleware.js"), AuthMiddlewareContent)

@@ -1,7 +1,8 @@
-const authControllerTemplate = () => {
+const authControllerTemplate = (includeErrorHandler) => {
 return `import userModel from '../models/user.model.js'
 import jwt from 'jsonwebtoken'
-import { NotFoundError, UserAlreadyExistsError, UnauthorizedError, BadRequestError, ForbiddenError } from '../utils/errors/AppError.js'
+${includeErrorHandler ? "import { NotFoundError, UserAlreadyExistsError, UnauthorizedError, BadRequestError, ForbiddenError } from '../utils/errors/AppError.js'" : ""}
+
 
 export const registerUser = async (req, res) => {
 
@@ -11,7 +12,7 @@ export const registerUser = async (req, res) => {
     const isUserAlreadyExists = await userModel.findOne({email})
 
     if(isUserAlreadyExists) {
-        throw new UserAlreadyExistsError('User already exists')
+        ${includeErrorHandler ? 'throw new UserAlreadyExistsError(\'User already exists\')' : 'res.status(400).json({message: "User already exists"})'}
     }
 
     const user = await userModel.create({
@@ -50,13 +51,13 @@ export const loginUser = async (req, res) => {
     const user = await userModel.findOne({email}).select("+password")
 
     if(!user) {
-        throw new NotFoundError('User not found')
+        ${includeErrorHandler ? 'throw new NotFoundError(\'User not found\')' : 'res.status(404).json({message: "User not found"})'}
     }
 
     const isPasswordCorrect = await user.comparePassword(password)
 
     if(!isPasswordCorrect) {
-        throw new UnauthorizedError('Invalid username or password')
+        ${includeErrorHandler ? 'throw new UnauthorizedError(\'Invalid username or password\')' : 'res.status(401).json({message: "Invalid username or password"})'}
     }
 
     const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, { expiresIn: '3d'})
@@ -82,7 +83,7 @@ export const logoutUser = async (req, res) => {
     const token = req.cookies.token || req.headers.authorization?.split(" ")[1]
 
     if(!token) {
-        throw new UnauthorizedError('No token provided')
+        ${includeErrorHandler ? 'throw new UnauthorizedError(\'No token provided\')' : 'res.status(401).json({message: "No token provided"})'}
     }
 
     res.clearCookie("token")
