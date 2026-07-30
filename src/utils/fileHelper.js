@@ -13,6 +13,7 @@ import validateMiddlewareTemplate from '../templates/validation/validateMiddlewa
 import errHandlerTemplate from '../utils/errors/errorHandlerMiddlewareTemplate.js';
 import authValidationTemplate from '../templates/auth/authValidationTemplate.js';
 import appErrorTemplate from '../utils/errors/appErrorTemplate.js';
+import envValidationTemplate from '../templates/validation/envValidationTemplate.js';
 
 const createProjectStructure = (projectName, includeAuthentication, includeValidation, includeErrorHandler) => {
 
@@ -33,11 +34,15 @@ const createProjectStructure = (projectName, includeAuthentication, includeValid
         const authRoutesContent = authRoutesTemplate(includeValidation);
         const authControllerContent = authControllerTemplate(includeErrorHandler);
         const AuthMiddlewareContent = getAuthMiddlewareContent();
+        const envValidationContent = envValidationTemplate();
 
         fs.writeFileSync(path.join(baseDir, "src", "middlewares", "auth.middleware.js"), AuthMiddlewareContent)
         fs.writeFileSync(path.join(baseDir, "src", "models", "user.model.js"), userModelContent)
         fs.writeFileSync(path.join(baseDir, "src", "routes", "auth.routes.js"), authRoutesContent)
         fs.writeFileSync(path.join(baseDir, "src", "controllers", "auth.controller.js"), authControllerContent)
+
+        fs.mkdirSync(path.join(baseDir, 'src', 'utils', 'validation'), { recursive: true })
+        fs.writeFileSync(path.join(baseDir, "src", "utils", "validation", "env.validation.js"), envValidationContent)
     }
 
     if(includeValidation) {
@@ -58,7 +63,7 @@ const createProjectStructure = (projectName, includeAuthentication, includeValid
     }
 
     const appCodeContent = appCodeTemplate(includeAuthentication, includeErrorHandler);
-    const serverCodeContent = serverCodeTemplate();
+    const serverCodeContent = serverCodeTemplate(includeAuthentication);
     const dbConfigContent = dbConfigTemplate();
     
     fs.writeFileSync(path.join(baseDir, "src", "app.js"), appCodeContent)

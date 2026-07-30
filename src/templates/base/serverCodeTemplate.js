@@ -1,9 +1,11 @@
-const serverCodeTemplate = () => {
+const serverCodeTemplate = (includeAuthentication) => {
     return `import dotenv from 'dotenv'
-dotenv.config()
 import app from './src/app.js' 
 import connectDB from './src/config/db.js'
+${includeAuthentication ? "import validateEnv from './src/utils/validation/env.validation.js'\n" : ""}
+dotenv.config()
 
+${includeAuthentication ? "validateEnv(['MONGO_URI', 'JWT_SECRET'])\n\n" : ""}
 connectDB()
 
 

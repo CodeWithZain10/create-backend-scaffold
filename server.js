@@ -1,9 +1,16 @@
 import dotenv from 'dotenv'
-dotenv.config()
+import  validateEnv  from './playground/src/utils/validation/env.validation.js'
 import app from './src/app.js' 
 import connectDB from './src/config/db.js'
 
+dotenv.config()
+
+validateEnv(['MONGO_URI', 'JWT_SECRET'])
+
+
 connectDB()
+
+
 
 
 app.listen(3000, () => {
