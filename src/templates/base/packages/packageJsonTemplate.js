@@ -17,6 +17,7 @@ const packageJsonTemplate = (projectName, includeAuthentication, includeValidati
     "nodemon": "latest",
     "cors": "latest"${includeAuthentication ? `,
     "bcryptjs": "latest",
+    "@faker-js/faker": "latest",
     "jsonwebtoken": "latest",
     "cookie-parser": "latest"` : ""}
   }

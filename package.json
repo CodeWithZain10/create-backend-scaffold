@@ -7,13 +7,15 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "seed": "node playground/src/utils/seeders/user.seeder.js"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "type": "module",
   "dependencies": {
+    "@faker-js/faker": "^10.5.0",
     "bcryptjs": "^3.0.3",
     "commander": "^15.0.0",
     "cookie-parser": "^1.4.7",

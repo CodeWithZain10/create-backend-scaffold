@@ -14,6 +14,7 @@ import errHandlerTemplate from '../utils/errors/errorHandlerMiddlewareTemplate.j
 import authValidationTemplate from '../templates/auth/authValidationTemplate.js';
 import appErrorTemplate from '../utils/errors/appErrorTemplate.js';
 import envValidationTemplate from '../templates/validation/envValidationTemplate.js';
+import userSeederTemplate from './seeders/userSeederTemplate.js';
 
 const createProjectStructure = (projectName, includeAuthentication, includeValidation, includeErrorHandler) => {
 
@@ -35,6 +36,7 @@ const createProjectStructure = (projectName, includeAuthentication, includeValid
         const authControllerContent = authControllerTemplate(includeErrorHandler);
         const AuthMiddlewareContent = getAuthMiddlewareContent();
         const envValidationContent = envValidationTemplate();
+        const userSeederContent = userSeederTemplate()
 
         fs.writeFileSync(path.join(baseDir, "src", "middlewares", "auth.middleware.js"), AuthMiddlewareContent)
         fs.writeFileSync(path.join(baseDir, "src", "models", "user.model.js"), userModelContent)
@@ -43,6 +45,9 @@ const createProjectStructure = (projectName, includeAuthentication, includeValid
 
         fs.mkdirSync(path.join(baseDir, 'src', 'utils', 'validation'), { recursive: true })
         fs.writeFileSync(path.join(baseDir, "src", "utils", "validation", "env.validation.js"), envValidationContent)
+        
+        fs.writeFileSync(path.join(baseDir, "src", "utils", "seeders", { recursive: true }))
+        fs.writeFileSync(path.join(baseDir, "src", "utils", "seeders", "user.seeder.js"))
     }
 
     if(includeValidation) {
