@@ -1,7 +1,7 @@
 const userSeederTemplate = () => {
 return `import { faker } from "@faker-js/faker";
 import userModel from '../../models/user.model.js'
-import connectDB from '../../../../src/config/db.js'
+import connectDB from '../../config/db.js'
 import dotenv from 'dotenv'
 dotenv.config()
 
